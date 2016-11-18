@@ -9,6 +9,7 @@ void BubbleSort_b(long array[], long size);
 void QuickSort_n(long array[], long size);
 void QuickSort_n_SubF(long array[], long start, long end); 
 void InsertionSort(int array[], int size);
+void Insertion(int array[], int source, int destination);
 void SelectionSort(int array[], int size); 
 int minimum(int array[], int start, int end);
 
@@ -193,10 +194,26 @@ void InsertionSort(int array[], int size)
 		{
 			if (array[j] < array[i])
 			{
-
+				Insertion(array, i, j+1);
+				break;
+			}
+			else if (j == 0)
+			{
+				Insertion(array, i, 0);
 			}
 		}
 	}
+}
+
+void Insertion(int array[], int source, int destination)
+{
+	int swap;
+	swap = array[source];
+	for (int i = source; i > destination; i--)
+	{
+		array[i] = array[i - 1];
+	}
+	array[destination] = swap;
 }
 
 void SelectionSort(int array[], int size)
