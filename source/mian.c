@@ -1,36 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define SIZE 10
+#define SIZE 20
 
-void BubbleSort_n(long array[], long size);
-void BubbleSort_a(long array[], long size);
 void BubbleSort_b(long array[], long size);
+void BubbleSort_b1(long array[], long size);
+void BubbleSort_b2(long array[], long size);
 void QuickSort_n(long array[], long size);
-void QuickSort_n_SubF(long array[], long start, long end); 
-void InsertionSort(int array[], int size);
-void Insertion(int array[], int source, int destination);
-void SelectionSort(int array[], int size); 
-int minimum(int array[], int start, int end);
+void QuickSort_n_SubF(long array[], long start, long end);
+void InsertionSort(long array[], long size);
+void Insertion(long array[], long source, long destination);
+void SelectionSort(long array[], long size);
+void ShowArray(long array[], long size);
+long get_minimum(long array[], long start, long end);
+long get_len(long num, long base);
 
-long totaltimes;
-
-int main(void)
+long main(void)
 {
 	long num[SIZE];
-	char mode = 0;
+	char mode = "";
 	long i;
-	long elapse;
-	long start_time;
-	long total = 0;
 
 	while (mode != -1)
 	{
-		totaltimes = 0;
-		printf("Enter a or b or n or q for toptic:");
+		printf("Enter b(bubble_normal) or c(bubble_fix_1) or d(bubble_fix_2) or q(quick) or i(insertion) or s(selection) for toptic:");
 		mode = getchar();
 		fflush(stdin);
-		total = 0;
+		system("cls");
 		srand(time(NULL));
 		for (i = 0; i < SIZE; i++)
 		{
@@ -47,44 +43,49 @@ int main(void)
 			}
 		}
 
-		for (i = 0; i < SIZE; i++)
+		switch (mode)
 		{
-			printf("%2d:%3d  ", i, num[i]);
-			if (i % 5 == 4)
-				printf("\n");
-		}
-		printf("\n");
-
-		if (mode == 'a')
-			BubbleSort_a(num, SIZE);
-		else if (mode == 'b')
+		case 'b':
+			ShowArray(num, SIZE);
 			BubbleSort_b(num, SIZE);
-		else if (mode == 'n')
-			BubbleSort_n(num, SIZE);
-		else if (mode == 'q')
+			//ShowArray(num, SIZE);
+			break;
+		case 'c':
+			ShowArray(num, SIZE);
+			BubbleSort_b1(num, SIZE);
+			//ShowArray(num, SIZE);
+			break;
+		case 'd':
+			ShowArray(num, SIZE);
+			BubbleSort_b2(num, SIZE);
+			//ShowArray(num, SIZE);
+			break;
+		case 'q':
+			ShowArray(num, SIZE);
 			QuickSort_n(num, SIZE);
-		else if (mode == 'i')
+			//ShowArray(num, SIZE);
+			break;
+		case 'i':
+			ShowArray(num, SIZE);
 			InsertionSort(num, SIZE);
-		else if (mode == 's')
+			ShowArray(num, SIZE);
+			break;
+		case 's':
+			ShowArray(num, SIZE);
 			SelectionSort(num, SIZE);
-
-		for (i = 0; i < SIZE; i++)
-		{
-			printf("%2d:%3d  ", i, num[i]);
-			if (i % 5 == 4)
-				printf("\n");
+			//ShowArray(num, SIZE);
+			break;
 		}
 	}
 	system("pause");
 	return 0;
 }
 
-void BubbleSort_n(long array[], long size)
+void BubbleSort_b(long array[], long size)
 {
 	long swap;
 	long i;
 	long j;
-
 	for (i = 0; i < size; i++)
 	{
 		for (j = 0; j < size - 1; j++)
@@ -96,10 +97,11 @@ void BubbleSort_n(long array[], long size)
 				array[j + 1] = swap;
 			}
 		}
+		ShowArray(array, size);
 	}
 }
 
-void BubbleSort_a(long array[], long size)
+void BubbleSort_b1(long array[], long size)
 {
 	long times = size - 1;
 	long swap;
@@ -118,10 +120,11 @@ void BubbleSort_a(long array[], long size)
 			}
 		}
 		times--;
+		ShowArray(array, size);
 	}
 }
 
-void BubbleSort_b(long array[], long size)
+void BubbleSort_b2(long array[], long size)
 {
 	long times = size - 1;
 	long swap;
@@ -143,6 +146,7 @@ void BubbleSort_b(long array[], long size)
 			}
 		}
 		times--;
+		ShowArray(array, size);
 	}
 }
 
@@ -186,15 +190,15 @@ void QuickSort_n_SubF(long array[], long start, long end)
 	}
 }
 
-void InsertionSort(int array[], int size)
+void InsertionSort(long array[], long size)
 {
-	for (int i = 0; i < size; i++)
+	for (long i = 1; i < size; i++)
 	{
-		for (int j = i-1; j >= 0; j--)
+		for (long j = i - 1; j >= 0; j--)
 		{
 			if (array[j] < array[i])
 			{
-				Insertion(array, i, j+1);
+				Insertion(array, i, j + 1);
 				break;
 			}
 			else if (j == 0)
@@ -202,40 +206,71 @@ void InsertionSort(int array[], int size)
 				Insertion(array, i, 0);
 			}
 		}
+		ShowArray(array, size);
 	}
 }
 
-void Insertion(int array[], int source, int destination)
+void Insertion(long array[], long source, long destination)
 {
-	int swap;
+	long swap;
 	swap = array[source];
-	for (int i = source; i > destination; i--)
+	for (long i = source; i > destination; i--)
 	{
 		array[i] = array[i - 1];
 	}
 	array[destination] = swap;
 }
 
-void SelectionSort(int array[], int size)
+void SelectionSort(long array[], long size)
 {
-	int swap;
-	int element;
-	for (int i = 0; i < size - 1; i++)
+	long swap;
+	long element;
+	for (long i = 0; i < size - 1; i++)
 	{
-		element = minimum(array, i,size-1);
+		element = get_minimum(array, i, size - 1);
 		swap = array[i];
 		array[i] = array[element];
 		array[element] = swap;
+		ShowArray(array, size);
 	}
 }
 
-int minimum(int array[], int start,int end)
+void ShowArray(long array[], long size)
 {
-	int temp = start;
-	for (int i = start; i <= end; i++)
+	int number = 20;
+	long temp;
+	if (((float)(size) / (((size - 1) / number) + 1))>(size / (((size - 1) / number) + 1)))
+		temp = (size / (((size - 1) / number) + 1)) + 1;
+	else
+		temp = (size / (((size - 1) / number) + 1));
+	for (long i = 0; i < size; i++)
+	{
+		printf("%*d", get_len(size, 10) + 1, array[i]);
+		if ((i % temp) == (temp-1))
+			printf("\n");
+		else
+		{
+			if (i + 1 == size)
+				printf("\n");
+		}
+	}
+	printf("\n");
+}
+long get_minimum(long array[], long start, long end)
+{
+	long temp = start;
+	for (long i = start; i <= end; i++)
 	{
 		if (array[i] < array[temp])
 			temp = i;
 	}
 	return temp;
+}
+
+long get_len(long num, long base)
+{
+	if (num / base >= 1)
+		return 1 + get_len(num / base, base);
+	else
+		return 1;
 }
